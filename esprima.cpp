@@ -1364,7 +1364,7 @@ struct EsprimaParser {
 
     // Throw an exception
 
-    void throwError(EsprimaToken *token, const std::string &msg) __attribute__((noreturn)) {
+    void throwError(EsprimaToken *token, const std::string &msg) {
         ParseError error;
 
         if (token) {
@@ -1389,7 +1389,7 @@ struct EsprimaParser {
 
     // Throw an exception because of the token.
 
-    void throwUnexpected(EsprimaToken *token) __attribute__((noreturn)) {
+    void throwUnexpected(EsprimaToken *token) {
         if (token->type == Token::EOF) {
             throwError(token, Messages::UnexpectedEOS);
         }
@@ -2351,8 +2351,8 @@ struct EsprimaParser {
     Statement *parseForStatement() {
         Node *init;
         Expression *test, *update;
-        Node *left;
-        Expression *right;
+        Node *left = nullptr;
+        Expression *right = nullptr;
         Statement *body;
         bool oldInIteration;
         bool leftIsUndefined = true;
@@ -2812,7 +2812,7 @@ struct EsprimaParser {
         std::vector<Statement *> sourceElements;
         EsprimaToken *token;
         std::string directive;
-        EsprimaToken *firstRestricted;
+        EsprimaToken *firstRestricted = nullptr;
         std::set<std::string> oldLabelSet;
         bool oldInIteration, oldInSwitch, oldInFunctionBody;
 
@@ -2876,8 +2876,8 @@ struct EsprimaParser {
 
     struct ParseParams {
         std::vector<Identifier *> params;
-        EsprimaToken *stricted;
-        EsprimaToken *firstRestricted;
+        EsprimaToken *stricted = nullptr;
+        EsprimaToken *firstRestricted = nullptr;
         std::string message;
     };
 
@@ -2885,7 +2885,7 @@ struct EsprimaParser {
         Identifier *param;
         std::vector<Identifier *> params;
         EsprimaToken *token;
-        EsprimaToken *stricted;
+        EsprimaToken *stricted = nullptr;
         std::set<std::string> paramSet;
         std::string message;
         expect("(");
@@ -2942,7 +2942,7 @@ struct EsprimaParser {
         BlockStatement *body;
         EsprimaToken *token, *stricted;
         ParseParams *tmp;
-        EsprimaToken *firstRestricted;
+        EsprimaToken *firstRestricted = nullptr;
         std::string message;
         bool previousStrict;
 
@@ -2988,7 +2988,7 @@ struct EsprimaParser {
         WrapTrackingFunction wtf(*this);
         EsprimaToken *token;
         Identifier *id = NULL;
-        EsprimaToken *stricted, *firstRestricted;
+        EsprimaToken *stricted, *firstRestricted = nullptr;
         std::string message;
         ParseParams *tmp;
         std::vector<Identifier *> params;
@@ -3059,7 +3059,7 @@ struct EsprimaParser {
         std::vector<Statement *> sourceElements;
         EsprimaToken *token;
         std::string directive;
-        EsprimaToken *firstRestricted;
+        EsprimaToken *firstRestricted = nullptr;
 
         while (index < length) {
             token = lookahead;
